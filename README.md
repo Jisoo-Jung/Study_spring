@@ -115,10 +115,6 @@ Spring Framework를 사용함에 있어서 초기 설정 및 필요한 라이브
 
 
 #### Spring MVC(Front-Controller Pattern)
-
-![spring_mvc](https://github.com/user-attachments/assets/47c78048-67ee-46e2-98d0-c0a577ffe4ca)
-
-
 ```	
 						HandlerMaping
 REQUEST		  ①	     		②↕	  	 ③		       		④
@@ -128,6 +124,8 @@ RESPONSE	⑦		 ⑥↕	     						⑤↕
 			   		   ↕
 					HTML 및 기타
 ```
+![spring_mvc](https://github.com/user-attachments/assets/47c78048-67ee-46e2-98d0-c0a577ffe4ca)
+
 #### Spring MVC 패턴의 특징
 ```
 	- HttpServletRequest, HttpServletResponse를 거의 사용할 필요 없이 구현 가능
@@ -136,7 +134,7 @@ RESPONSE	⑦		 ⑥↕	     						⑤↕
 	- 상속/인터페이스 방식 대신 어노테이션으로만 설정 가능
 ```
 --------------------------------------------------------------
-**3-tier**
+#### 3-tier
 ```
 스프링 프로젝트는 3-tier 방식으로 설계된다.
 
