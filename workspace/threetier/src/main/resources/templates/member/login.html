@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인</title>
+</head>
+<body>
+<form th:action="@{/member/login}" method="post" th:object="${memberDTO}">
+    <div>
+        <input type="text" th:field="*{memberEmail}">
+    </div>
+    <div>
+        <input type="text" th:field="*{memberPassword}">
+    </div>
+    <label>
+        <input type="checkbox" name="save" value="true"> 아이디 저장
+    </label>
+    <button>로그인</button>
+</form>
+</body>
+<script th:inline="javascript">
+    const save = [[${save}]];
+    const saveInput = document.querySelector("input[name=save]");
+    if(save) {
+        saveInput.checked = true;
+    }
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

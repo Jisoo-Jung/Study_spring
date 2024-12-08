@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form th:action="@{/file/write}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="file" name="file">
+    <button type="button">완료</button>
+    <div><a class="download"><img class="th" width="100"></a></div>
+    <div><a class="download"><img class="th" width="100"></a></div>
+</form>
+</body>
+<script src="/js/file/file-service.js"></script>
+<script>
+    const button = document.querySelector("button[type=button]");
+    const files = document.querySelectorAll("input[type=file]");
+    const ths = document.querySelectorAll("img.th");
+    const downloads = document.querySelectorAll("a.download");
+
+    files.forEach((file, i) => {
+        file.addEventListener("change", async (e) => {
+            const file = e.target.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+            const fileInfo = await fileService.upload(formData);
+            console.log(fileInfo);
+            ths[i].src = `/file/display?fileName=${fileInfo.filePath + "/t_" + fileInfo.fileName}`;
+            downloads[i].href = `/file/download?fileName=${fileInfo.filePath + "/" + fileInfo.fileName}`;
+        });
+    });
+
+    button.addEventListener("click", (e) => {
+
+    });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

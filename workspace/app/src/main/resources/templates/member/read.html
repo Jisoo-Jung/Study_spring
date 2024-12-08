@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이 페이지</title>
+</head>
+<body>
+    <button id="go-update">수정하기</button>
+    <table th:object="${member}">
+        <tr>
+            <th>이메일</th>
+            <th>이름</th>
+        </tr>
+        <tr class="member-data">
+<!--            <td th:text="*{memberEmail}"></td>-->
+<!--            <td th:text="*{memberName}"></td>-->
+            <td id="memberEmail"></td>
+            <td id="memberName"></td>
+        </tr>
+    </table>
+</body>
+<script th:inline="javascript">
+    const memberDTO = [[${member}]];
+    const memberEmail = document.getElementById("memberEmail");
+    const memberName = document.getElementById("memberName");
+
+    memberEmail.innerText = memberDTO.memberEmail;
+    memberName.innerText = memberDTO.memberName;
+
+    document.getElementById("go-update").addEventListener("click", (e) => {
+        location.href = `/member/update?id=${memberDTO.id}`;
+    });
+</script>
+</html>
+
+
+
+
+
+
+
+

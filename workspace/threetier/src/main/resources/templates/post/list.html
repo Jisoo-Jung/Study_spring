@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>게시글 목록</title>
+</head>
+<body>
+    <h1 th:text="${pagination.total}"></h1>
+    <div>
+        <form action="/post/list" name="search-form">
+            <label>
+                <input type="checkbox" name="types" value="member-name"> 작성자
+            </label>
+            <label>
+                <input type="checkbox" name="types" value="post-title"> 제목
+            </label>
+            <label>
+                <input type="checkbox" name="types" value="post-content"> 내용
+            </label>
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+            <button>검색</button>
+        </form>
+    </div>
+    <a href="/post/list?order=recent">최신순</a><a href="/post/list?order=popular">인기순</a>
+    <table id="post-table">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성 날짜</th>
+        </tr>
+    </table>
+<div id="page-wrap"></div>
+</body>
+<script th:inline="javascript">
+    const keyword = document.querySelector("input[name='keyword']");
+    const types = document.querySelectorAll("input[name='types']");
+    const pagination = [[${pagination}]]
+    const posts = [[${posts}]]
+    const search = [[${search}]]
+    const table = document.getElementById("post-table");
+    const pageWrap = document.getElementById("page-wrap");
+    let text = ``;
+    let typeParams = ``;
+
+    if(search.keyword === null){
+        search.keyword = '';
+    }
+    keyword.value = search.keyword;
+
+    if(keyword.value){
+        types.forEach((type) => {
+           type.addEventListener("click", (e) => {
+               if(keyword.value){
+                   document['search-form'].submit();
+               }
+           });
+        });
+    }
+
+
+
+
+    if(search.types !== null){
+        for(let type of types){ //input 태그
+            for(let target of search.types){ //이전 검색필터
+                if(type.value == target) {
+                    type.checked = true;
+                }
+            }
+        }
+
+        search.types.forEach((type) => {
+            typeParams += `types=${type}&`
+        });
+    }
+
+    posts.forEach((post) => {
+        text += `
+            <tr>
+                <td>${post.id}</td>
+                <td>${post.memberName}</td>
+                <td><a href="/post/read?id=${post.id}">${post.postTitle}</a></td>
+                <td>${post.postReadCount}</td>
+                <td>${post.createdDate}</td>
+            </tr>
+        `;
+    });
+    table.innerHTML += text;
+
+    text = ``;
+    for(let i=pagination.startPage; i<=pagination.endPage; i++){
+        text += `<a href="/post/list?${typeParams}keyword=${search.keyword}&page=${i}">${i}</a>`
+    }
+    pageWrap.innerHTML = text;
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+

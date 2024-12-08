@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.mybatis.mapper.ReplyMapper">
+    <insert id="insert">
+        INSERT INTO TBL_REPLY(ID, REPLY_CONTENT, REPLY_GROUP_ID, REPLY_ORDER, MEMBER_ID, POST_ID)
+        <choose>
+            <when test="replyGroupId == null">
+                VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SEQ_REPLY.CURRVAL, #{replyOrder}, #{memberId}, #{postId})
+            </when>
+            <otherwise>
+                VALUES(
+                    SEQ_REPLY.NEXTVAL, #{replyContent}, #{replyGroupId},
+                    (
+                        SELECT MAX(REPLY_ORDER) + 1 FROM TBL_REPLY WHERE REPLY_GROUP_ID=#{replyGroupId}
+                    ),
+                    #{memberId}, #{postId}
+                )
+            </otherwise>
+        </choose>
+    </insert>
+
+    <select id="selectAll" resultType="replyDTO">
+        SELECT R.ID, REPLY_CONTENT, REPLY_GROUP_ID, REPLY_ORDER, CREATED_DATE, UPDATED_DATE,
+               MEMBER_ID, POST_ID, M.MEMBER_NAME
+        FROM TBL_MEMBER M JOIN TBL_REPLY R
+        ON M.ID = R.MEMBER_ID
+        ORDER BY R.REPLY_GROUP_ID DESC, R.REPLY_ORDER DESC
+    </select>
+
+    <delete id="delete">
+        DELETE FROM TBL_REPLY
+        WHERE ID = #{id}
+        <if test="replyOrder == 0">
+            OR REPLY_GROUP_ID = #{id}
+        </if>
+    </delete>
+
+    <update id="update">
+        UPDATE TBL_REPLY
+        SET REPLY_CONTENT = #{replyContent}, UPDATED_DATE = CURRENT_TIMESTAMP
+        WHERE ID = #{id}
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
