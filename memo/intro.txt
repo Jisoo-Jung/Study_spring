@@ -100,13 +100,13 @@ Spring Boot
 
 Spring MVC(Front-Controller Pattern)
 	
-			HandlerMaping
-REQUEST		  ①	      ②↕	   ③		       ④
+						HandlerMaping
+REQUEST		  ①	     		②↕	  	 ③		       		④
 	]	  ↔	DispatcherServlet   ↔  HandlerAdapter   ↔  Controller
-RESPONSE	  ⑦	⑥↕	     ⑤↕
-			View	ViewResolver
-			   ↕
-			HTML 및 기타
+RESPONSE	⑦		 ⑥↕	     						⑤↕
+					 View						ViewResolver
+			   		   ↕
+					HTML 및 기타
 
 Spring MVC 패턴의 특징
 	- HttpServletRequest, HttpServletResponse를 거의 사용할 필요 없이 구현 가능
